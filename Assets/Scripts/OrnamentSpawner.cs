@@ -6,15 +6,17 @@ public class OrnamentSpawner : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private List<Ornament> ornamentPrefabs;
 
-    // Start is called before the first frame update
+    [SerializeField] private OrnamentButton buttonPrefab;
+    [SerializeField] private Transform content;
+    
     void Start()
     {
-        
+        foreach (var ornament in ornamentPrefabs)
+        {
+            OrnamentButton button = Instantiate(buttonPrefab, content);
+            button.SetScreenshot(ornament.Screenshot);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+   
 }

@@ -282,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyRenderer: {fileID: 6167060052163074124}
   sphereRigidbody: {fileID: 9135153465584098240}
+  screenshot: {fileID: 21300000, guid: c476adf3b40894e4eb68bb04670da974, type: 3}
 --- !u!1001 &1450755307516842931
 PrefabInstance:
   m_ObjectHideFlags: 0
