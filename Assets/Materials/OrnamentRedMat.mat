@@ -28,8 +28,8 @@ Material:
     m_Floats:
     - _Full_Glow_Distance: 3
     m_Colors:
-    - _Color: {r: 0.8, g: 0, b: 0.007843138, a: 1}
-    - _Glow_Color: {r: 5.9921565, g: 3.4543836, b: 1.6593666, a: 1}
+    - _Color: {r: 0.76111114, g: 0.8666667, b: 0.49411765, a: 1}
+    - _Glow_Color: {r: 4.8301888, g: 4.8301888, b: 4.8301888, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1472003963954530590
 MonoBehaviour:
