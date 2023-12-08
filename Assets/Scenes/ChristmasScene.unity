@@ -508,10 +508,9 @@ MonoBehaviour:
   - {fileID: 2614517030626062601, guid: 4f0b96a632d974df79ca64bc67663aa3, type: 3}
   - {fileID: 1068159076675252395, guid: 2de96061e1ab7435cb49b6c408b7cb44, type: 3}
   - {fileID: 327057246933692446, guid: d25b8ca9feb5a481596758f9a9564315, type: 3}
+  - {fileID: 1068159076675252395, guid: 84b263952d0914d07b27ce391ca7fe2f, type: 3}
   buttonPrefab: {fileID: 817813621}
   content: {fileID: 1262986091}
-  environmentButton: {fileID: 0}
-  environmentTransform: {fileID: 0}
 --- !u!1 &690328644
 GameObject:
   m_ObjectHideFlags: 0
