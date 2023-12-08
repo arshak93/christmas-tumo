@@ -12,12 +12,7 @@ public class ChristmasTree : MonoBehaviour
     {
         foreach (var ornamentPosition in ornamentPositions)
         {
-            if (Random.value < 1f)
-            {
-                var ornament = Instantiate(ornamentPrefabs[Random.Range(0, ornamentPrefabs.Count)], ornamentPosition);
-                ornament.BodyRenderer.sharedMaterial = ornamentMaterials[Random.Range(0, ornamentMaterials.Count)];
-                // ornament.SphereRigidbody.AddForce(Random.onUnitSphere);
-            }
+            ornamentPosition.gameObject.AddComponent<OrnamentPosition>();
         }
     }
 }

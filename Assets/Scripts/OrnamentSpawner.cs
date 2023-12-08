@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +7,19 @@ public class OrnamentSpawner : MonoBehaviour
     [SerializeField] private List<Ornament> ornamentPrefabs;
     [SerializeField] private OrnamentButton buttonPrefab;
     [SerializeField] private Transform content;
-
-    private Ornament selectedOrnament;
+    
+    // Selected ornament to spawn
+    private Transform _selectedObjectToSpawn;
+    // Selected object to spawn name
+    private string _selectedObjectToSpawnName;
+    
+    // The ornament position we currently point to
+    private OrnamentPosition _currentOrnamentPosition;
     
     void Start()
     {
+        // environmentButton.onClick.AddListener(() => SelectEnvironment(tnakEnvironmentPrefab));
+        
         foreach (var ornament in ornamentPrefabs)
         {
             OrnamentButton button = Instantiate(buttonPrefab, content);
@@ -25,22 +32,46 @@ public class OrnamentSpawner : MonoBehaviour
 
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
     {
-        if (selectedOrnament != null)
+        Debug.Log(_selectedObjectToSpawnName);
+        Debug.Log(ornamentPrefab.name);
+        Debug.Log(_selectedObjectToSpawnName == ornamentPrefab.name);
+        // Tapped on the same selected button again
+        if (_selectedObjectToSpawnName == ornamentPrefab.name)
         {
-            Destroy(selectedOrnament.gameObject);
+            Debug.Log(_currentOrnamentPosition);
+            // If the position is valid, place the ornament
+            if (_currentOrnamentPosition != null)
+            {
+                _currentOrnamentPosition.AttachedOrnamentName = _selectedObjectToSpawnName;
+            }
         }
-        
-        selectedOrnament = Instantiate(ornamentPrefab);
+        else // Selected a new ornament
+        {
+            ClearCurrentSelection();
+            _selectedObjectToSpawnName = ornamentPrefab.name;
+            _selectedObjectToSpawn = Instantiate(ornamentPrefab.transform);
+        }
+    }
+
+    private void ClearCurrentSelection()
+    {
+        _selectedObjectToSpawnName = null;
+        if (_selectedObjectToSpawn != null)
+        {
+            Destroy(_selectedObjectToSpawn.gameObject);
+        }
     }
 
     private void Update()
     {
-        if(selectedOrnament == null)
+        if(_selectedObjectToSpawn == null)
             return;
 
-        selectedOrnament.transform.position =
+        _selectedObjectToSpawn.position =
             mainCamera.transform.position +
             mainCamera.transform.forward * 2;
+
+        _currentOrnamentPosition = null;
 
 
         // Calculate the center of the viewport
@@ -48,14 +79,14 @@ public class OrnamentSpawner : MonoBehaviour
 
         // Create a ray from the camera through the center of the screen
         Ray ray = mainCamera.ScreenPointToRay(screenCenter);
-
+        
         // Perform the raycast
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)) {
-
             if (hit.collider.CompareTag("OrnamentPosition"))
             {
-                selectedOrnament.transform.position = hit.collider.transform.position;
+                _selectedObjectToSpawn.position = hit.collider.transform.position;
+                _currentOrnamentPosition = hit.collider.GetComponent<OrnamentPosition>();
             }
         }
     }
