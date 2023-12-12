@@ -32,9 +32,6 @@ public class OrnamentSpawner : MonoBehaviour
 
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
     {
-        Debug.Log(_selectedObjectToSpawnName);
-        Debug.Log(ornamentPrefab.name);
-        Debug.Log(_selectedObjectToSpawnName == ornamentPrefab.name);
         // Tapped on the same selected button again
         if (_selectedObjectToSpawnName == ornamentPrefab.name)
         {
