@@ -4,71 +4,97 @@ using UnityEngine;
 public class OrnamentSpawner : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform environment;
     [SerializeField] private List<Ornament> ornamentPrefabs;
-    [SerializeField] private OrnamentButton buttonPrefab;
-    [SerializeField] private Transform content;
+    [SerializeField] private List<Material> ornamentMaterials;
+    [SerializeField] private OrnamentButton ornamentButtonPrefab;
+    [SerializeField] private ColorButton colorButtonPrefab;
+    [SerializeField] private Transform ornamentButtonContent;
+    [SerializeField] private Transform colorButtonContent;
     
     // Selected ornament to spawn
-    private Transform _selectedObjectToSpawn;
-    // Selected object to spawn name
-    private string _selectedObjectToSpawnName;
-    
+    private Ornament _selectedOrnamentToSpawn;
+    // Selected ornament to spawn data
+    private OrnamentData _selectedOrnamentToSpawnData = new OrnamentData();
     // The ornament position we currently point to
-    private OrnamentPosition _currentOrnamentPosition;
+    private OrnamentPosition _selectedOrnamentPosition;
     
     void Start()
     {
-        // environmentButton.onClick.AddListener(() => SelectEnvironment(tnakEnvironmentPrefab));
-        
+        // Create the ornament buttons
         foreach (var ornament in ornamentPrefabs)
         {
-            OrnamentButton button = Instantiate(buttonPrefab, content);
+            OrnamentButton button = Instantiate(ornamentButtonPrefab, ornamentButtonContent);
             button.SetScreenshot(ornament.Screenshot);
             button.OnButtonClick += () => SelectOrnamentPrefab(ornament);
         }
         
-        buttonPrefab.gameObject.SetActive(false);
-    }
+        // Disable the ornament button prefab
+        ornamentButtonPrefab.gameObject.SetActive(false);
+        
+        // Create the color buttons
+        foreach (var material in ornamentMaterials)
+        {
+            ColorButton button = Instantiate(colorButtonPrefab, colorButtonContent);
+            button.SetColor(material.color);
 
+            button.OnButtonClick += () => SelectOrnamentMaterial(material);
+        }
+        
+        // Disable the ornament button prefab
+        colorButtonPrefab.gameObject.SetActive(false);
+        
+        // Start with the first ornament and the first color selected
+        SelectOrnamentPrefab(ornamentPrefabs[0]);
+        SelectOrnamentMaterial(ornamentMaterials[0]);
+    }
+    
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
     {
         // Tapped on the same selected button again
-        if (_selectedObjectToSpawnName == ornamentPrefab.name)
+        if (_selectedOrnamentToSpawnData.prefab == ornamentPrefab.name)
         {
-            Debug.Log(_currentOrnamentPosition);
+            Debug.Log(_selectedOrnamentPosition);
             // If the position is valid, place the ornament
-            if (_currentOrnamentPosition != null)
+            if (_selectedOrnamentPosition != null)
             {
-                _currentOrnamentPosition.AttachedOrnamentName = _selectedObjectToSpawnName;
+                _selectedOrnamentPosition.AttachedOrnamentData = _selectedOrnamentToSpawnData;
             }
         }
         else // Selected a new ornament
         {
             ClearCurrentSelection();
-            _selectedObjectToSpawnName = ornamentPrefab.name;
-            _selectedObjectToSpawn = Instantiate(ornamentPrefab.transform);
+            _selectedOrnamentToSpawnData.prefab = ornamentPrefab.name;
+            _selectedOrnamentToSpawnData.text = ornamentPrefab.text;
+            _selectedOrnamentToSpawn = Instantiate(ornamentPrefab, environment);
         }
+    }
+    
+    private void SelectOrnamentMaterial(Material material)
+    {
+        _selectedOrnamentToSpawnData.material = material.name;
+        _selectedOrnamentToSpawn.SetMaterial(material);
     }
 
     private void ClearCurrentSelection()
     {
-        _selectedObjectToSpawnName = null;
-        if (_selectedObjectToSpawn != null)
+        _selectedOrnamentToSpawnData.prefab = null;
+        if (_selectedOrnamentToSpawn != null)
         {
-            Destroy(_selectedObjectToSpawn.gameObject);
+            Destroy(_selectedOrnamentToSpawn.gameObject);
         }
     }
 
     private void Update()
     {
-        if(_selectedObjectToSpawn == null)
+        if(_selectedOrnamentToSpawn == null)
             return;
 
-        _selectedObjectToSpawn.position =
-            mainCamera.transform.position +
-            mainCamera.transform.forward * 2;
+        _selectedOrnamentToSpawn.transform.position =
+            mainCamera.transform.position + 
+            mainCamera.transform.forward * 0.8f;
 
-        _currentOrnamentPosition = null;
+        _selectedOrnamentPosition = null;
 
 
         // Calculate the center of the viewport
@@ -82,8 +108,13 @@ public class OrnamentSpawner : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) {
             if (hit.collider.CompareTag("OrnamentPosition"))
             {
-                _selectedObjectToSpawn.position = hit.collider.transform.position;
-                _currentOrnamentPosition = hit.collider.GetComponent<OrnamentPosition>();
+                OrnamentPosition ornamentPosition = hit.collider.GetComponent<OrnamentPosition>();
+
+                if (!ornamentPosition.HasOrnament)
+                {
+                    _selectedOrnamentPosition = ornamentPosition;
+                    _selectedOrnamentToSpawn.transform.position = hit.collider.transform.position;
+                }
             }
         }
     }

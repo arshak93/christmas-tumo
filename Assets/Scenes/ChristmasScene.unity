@@ -513,6 +513,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168280991}
   m_CullTransparentMesh: 1
+--- !u!4 &190895739 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 869119343590212891, guid: 29d2bdfb9feec4c7e9dccd3e0cf50c8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 85538280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &425410336
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +651,7 @@ GameObject:
   - component: {fileID: 436358034}
   - component: {fileID: 436358036}
   m_Layer: 0
-  m_Name: Object Spawner
+  m_Name: Ornament Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,14 +685,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1312980060}
+  environment: {fileID: 190895739}
   ornamentPrefabs:
   - {fileID: 3795230208983243148, guid: 8240c3de80396430a87f01819b3510ef, type: 3}
   - {fileID: 2614517030626062601, guid: 4f0b96a632d974df79ca64bc67663aa3, type: 3}
   - {fileID: 1068159076675252395, guid: 2de96061e1ab7435cb49b6c408b7cb44, type: 3}
   - {fileID: 327057246933692446, guid: d25b8ca9feb5a481596758f9a9564315, type: 3}
   - {fileID: 1068159076675252395, guid: 84b263952d0914d07b27ce391ca7fe2f, type: 3}
-  buttonPrefab: {fileID: 817813621}
-  content: {fileID: 1262986091}
+  ornamentMaterials:
+  - {fileID: 2100000, guid: a54a6b2fb892b4317b3cf07c0e00b47a, type: 2}
+  - {fileID: 2100000, guid: f127db769e77d44b6b3b85d048cbbbcf, type: 2}
+  - {fileID: 2100000, guid: 63eed1f6fd3ec4a64b82f5f3538c4a7f, type: 2}
+  - {fileID: 2100000, guid: 46c7551a790e3417ea9bdca608d51c71, type: 2}
+  - {fileID: 2100000, guid: dd14ed47cec8c42eba82d0e03463d768, type: 2}
+  ornamentButtonPrefab: {fileID: 817813621}
+  colorButtonPrefab: {fileID: 582212125}
+  ornamentButtonContent: {fileID: 1262986091}
+  colorButtonContent: {fileID: 2034813670}
 --- !u!1 &582212119
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +785,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 582212123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 582212125}
+        m_TargetAssemblyTypeName: ColorButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &582212123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4224bec15094ba69452875f29897af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorImage: {fileID: 145715819}
+  checkmark: {fileID: 0}
 --- !u!1 &690328644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1221,7 @@ GameObject:
   - component: {fileID: 820290887}
   - component: {fileID: 820290885}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: Ornaments Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1806,6 +1835,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1149454412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149454413}
+  m_Layer: 0
+  m_Name: Ornament Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1149454413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149454412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1312980054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262986090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,6 +1989,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2056199876}
+  - {fileID: 1149454413}
   m_Father: {fileID: 1941493004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1312980055
