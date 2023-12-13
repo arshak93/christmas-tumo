@@ -17,7 +17,8 @@ public class EnvironmentSpawner : MonoBehaviour
     {
         if (_isMoving)
         {
-            environment.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 8 + Vector3.down * 2;
+            environment.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 3 + Vector3.down * 2;
+            environment.transform.localRotation = Quaternion.Euler(0, 180 + mainCamera.transform.localRotation.eulerAngles.y, 0);
         }
     }
 }
