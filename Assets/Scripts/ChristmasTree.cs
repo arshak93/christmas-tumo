@@ -10,9 +10,16 @@ public class ChristmasTree : MonoBehaviour
     
     private void Start()
     {
-        foreach (var ornamentPosition in ornamentPositions)
+        foreach (var ornamentPositionTransform in ornamentPositions)
         {
-            ornamentPosition.gameObject.AddComponent<OrnamentPosition>();
+            OrnamentPosition ornamentPosition = ornamentPositionTransform.gameObject.AddComponent<OrnamentPosition>();
+            
+            if(PlayerPrefs.HasKey(ornamentPosition.name))
+            {
+                string json = PlayerPrefs.GetString(ornamentPosition.name);
+                OrnamentData ornamentData = JsonUtility.FromJson<OrnamentData>(json);
+                ornamentPosition.AttachedOrnamentData = ornamentData;
+            }
         }
     }
 }
