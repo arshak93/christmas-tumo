@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrnamentSpawner : MonoBehaviour
@@ -11,7 +13,9 @@ public class OrnamentSpawner : MonoBehaviour
     [SerializeField] private ColorButton colorButtonPrefab;
     [SerializeField] private Transform ornamentButtonContent;
     [SerializeField] private Transform colorButtonContent;
-    
+
+    public event Action<OrnamentPosition> OnSelectedOrnamentPositionChanged; 
+
     // Selected ornament to spawn
     private Ornament _selectedOrnamentToSpawn;
     // Selected ornament to spawn data
@@ -117,5 +121,7 @@ public class OrnamentSpawner : MonoBehaviour
                 }
             }
         }
+        
+        OnSelectedOrnamentPositionChanged?.Invoke(_selectedOrnamentPosition);
     }
 }

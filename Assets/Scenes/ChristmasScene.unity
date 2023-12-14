@@ -203,17 +203,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3e9e336e819224e0dbc296f693792445,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.333333
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3e9e336e819224e0dbc296f693792445,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.333333
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3e9e336e819224e0dbc296f693792445,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.333333
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3e9e336e819224e0dbc296f693792445,
         type: 3}
@@ -1597,8 +1597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01705f5c0cc1346b9904d2bf99d9a7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OrnamentPositions: []
-  _currentOrnamentPosition: {fileID: 0}
 --- !u!114 &633968376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2306,6 +2304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94c9e34fb184364a0d1af3b824342d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ornamentSpawner: {fileID: 436358036}
+  placeButton: {fileID: 633968376}
 --- !u!1 &1058802356
 GameObject:
   m_ObjectHideFlags: 0
@@ -3609,7 +3609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739562c4fc7584d079411143e140833a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object_Menu_Animator: {fileID: 0}
 --- !u!114 &1880623193
 MonoBehaviour:
   m_ObjectHideFlags: 0
