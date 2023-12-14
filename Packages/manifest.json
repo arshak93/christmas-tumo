@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "com.aukilabs.unity.conjurekit": "0.6.44",
+    "com.aukilabs.unity.integration.arfoundation": "0.6.35",
+    "com.aukilabs.unity.manna": "0.6.58",
     "com.siccity.gltfutility": "https://github.com/siccity/gltfutility.git",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.ar": "1.0.1",
@@ -45,5 +48,13 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0"
   },
-  "scopedRegistries": []
+  "scopedRegistries": [
+    {
+      "name": "Auki Labs",
+      "url": "https://npm.aukiverse.com",
+      "scopes": [
+        "com.aukilabs"
+      ]
+    }
+  ]
 }

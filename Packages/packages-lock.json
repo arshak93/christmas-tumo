@@ -1,5 +1,35 @@
 {
   "dependencies": {
+    "com.aukilabs.unity.conjurekit": {
+      "version": "0.6.44",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "url": "https://npm.aukiverse.com"
+    },
+    "com.aukilabs.unity.integration.arfoundation": {
+      "version": "0.6.35",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.aukilabs.unity.manna": "0.6.34",
+        "com.unity.xr.arfoundation": "4.2.7"
+      },
+      "url": "https://npm.aukiverse.com"
+    },
+    "com.aukilabs.unity.manna": {
+      "version": "0.6.58",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.aukilabs.unity.conjurekit": "0.6.31",
+        "com.unity.nuget.newtonsoft-json": "3.0.2",
+        "com.unity.mathematics": "1.2.6"
+      },
+      "url": "https://npm.aukiverse.com"
+    },
     "com.siccity.gltfutility": {
       "version": "https://github.com/siccity/gltfutility.git",
       "depth": 0,
