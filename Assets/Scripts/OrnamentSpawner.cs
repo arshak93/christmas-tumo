@@ -54,11 +54,10 @@ public class OrnamentSpawner : MonoBehaviour
         // Tapped on the same selected button again
         if (_selectedOrnamentToSpawnData.prefab == ornamentPrefab.name)
         {
-            Debug.Log(_selectedOrnamentPosition);
             // If the position is valid, place the ornament
             if (_selectedOrnamentPosition != null)
             {
-                _selectedOrnamentPosition.AttachedOrnamentData = _selectedOrnamentToSpawnData;
+                PlaceCurrentOrnament();
             }
         }
         else // Selected a new ornament
@@ -83,6 +82,11 @@ public class OrnamentSpawner : MonoBehaviour
         {
             Destroy(_selectedOrnamentToSpawn.gameObject);
         }
+    }
+
+    private void PlaceCurrentOrnament()
+    {
+        _selectedOrnamentPosition.AttachedOrnamentData = _selectedOrnamentToSpawnData;
     }
 
     private void Update()

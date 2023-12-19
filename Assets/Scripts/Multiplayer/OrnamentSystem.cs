@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Auki.ConjureKit;
 using Auki.ConjureKit.ECS;
 using UnityEngine;
@@ -89,11 +90,13 @@ public class OrnamentSystem : SystemBase
     
     private byte[] OrnamentDataToByteArray(OrnamentData ornamentData)
     {
-        return null;
+        string json = JsonUtility.ToJson(ornamentData);
+        return Encoding.UTF8.GetBytes(json);
     }
     
     private OrnamentData ByteArrayToOrnamentData(byte[] bytes)
     {
-        return null;
+        string jsonFromBytes = Encoding.UTF8.GetString(bytes);
+        return JsonUtility.FromJson<OrnamentData>(jsonFromBytes);
     }
 }
