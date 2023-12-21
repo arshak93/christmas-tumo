@@ -13,6 +13,11 @@ public class Ornament : MonoBehaviour
         bodyRenderer.sharedMaterial = material;
     }
 
+    public void SetData(OrnamentData data)
+    {
+        bodyRenderer.sharedMaterial = Resources.Load<Material>(data.material);
+    }
+
     public Rigidbody SphereRigidbody => sphereRigidbody;
     public Sprite Screenshot => screenshot;
     public string Text => text;

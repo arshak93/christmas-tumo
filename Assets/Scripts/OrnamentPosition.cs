@@ -3,7 +3,6 @@ using UnityEngine;
 public class OrnamentPosition : MonoBehaviour
 {
     private int _positionIndex = -1;
-    private OrnamentSystem _ornamentSystem;
     private Ornament _attachedOrnament;
     private OrnamentData _attachedOrnamentData;
 
@@ -32,12 +31,9 @@ public class OrnamentPosition : MonoBehaviour
 
     public bool HasOrnament => _attachedOrnamentData != null;
 
-    public void Initialize(int index, OrnamentSystem ornamentSystem)
+    public void Initialize(int index)
     {
         _positionIndex = index;
-        _ornamentSystem = ornamentSystem;
-        
-        _ornamentSystem.OnOrnamentComponentUpdated += OnOrnamentComponentUpdated;
     }
 
     private void OnOrnamentComponentUpdated(uint entityId, OrnamentData ornamentData)
@@ -51,6 +47,8 @@ public class OrnamentPosition : MonoBehaviour
     public void RemoveOrnament()
     {
         _attachedOrnamentData = null;
-        Destroy(_attachedOrnament.gameObject);
+        
+        if(_attachedOrnament != null)
+            Destroy(_attachedOrnament.gameObject);
     }
 }

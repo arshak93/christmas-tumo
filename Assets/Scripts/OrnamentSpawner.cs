@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Auki.ConjureKit;
 using UnityEngine;
 
 public class OrnamentSpawner : MonoBehaviour
@@ -12,6 +13,11 @@ public class OrnamentSpawner : MonoBehaviour
     [SerializeField] private Transform ornamentButtonContent;
     [SerializeField] private Transform colorButtonContent;
     
+    [SerializeField] private ConjureKitWrapper conjureKitWrapper;
+
+    private Dictionary<uint, Ornament> _ornaments =
+        new Dictionary<uint, Ornament>();
+    
     // Selected ornament to spawn
     private Ornament _selectedOrnamentToSpawn;
     // Selected ornament to spawn data
@@ -21,6 +27,8 @@ public class OrnamentSpawner : MonoBehaviour
     
     void Start()
     {
+        conjureKitWrapper.OnJoined += OnJoined;
+        
         // Create the ornament buttons
         foreach (var ornament in ornamentPrefabs)
         {
@@ -47,6 +55,19 @@ public class OrnamentSpawner : MonoBehaviour
         // Start with the first ornament and the first color selected
         SelectOrnamentPrefab(ornamentPrefabs[0]);
         SelectOrnamentMaterial(ornamentMaterials[0]);
+    }
+    
+    private void OnJoined(Session session)
+    {
+        conjureKitWrapper.OrnamentSystem.OnOrnamentComponentUpdated += OnOrnamentComponentUpdated;
+    }
+    
+    private void OnOrnamentComponentUpdated(uint entityId, OrnamentData data)
+    {
+        if (!_ornaments.ContainsKey(entityId))
+            return;
+        
+        _ornaments[entityId].SetData(data);
     }
     
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
