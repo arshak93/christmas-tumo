@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Auki.ConjureKit;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrnamentSpawner : MonoBehaviour
 {
@@ -12,12 +13,17 @@ public class OrnamentSpawner : MonoBehaviour
     [SerializeField] private ColorButton colorButtonPrefab;
     [SerializeField] private Transform ornamentButtonContent;
     [SerializeField] private Transform colorButtonContent;
+    //[SerializeField] private DomainTreeSpawner domainTreeSpawner;
     
     [SerializeField] private ConjureKitWrapper conjureKitWrapper;
+    [SerializeField] private Button cancelButton;
+    [SerializeField] private Button placeButton;
+    [SerializeField] private GameObject ornamentMenu;
+    [SerializeField] private Confetti confetti;
 
     private Dictionary<uint, Ornament> _ornaments =
         new Dictionary<uint, Ornament>();
-    
+     
     // Selected ornament to spawn
     private Ornament _selectedOrnamentToSpawn;
     // Selected ornament to spawn data
@@ -53,10 +59,23 @@ public class OrnamentSpawner : MonoBehaviour
         colorButtonPrefab.gameObject.SetActive(false);
         
         // Start with the first ornament and the first color selected
-        SelectOrnamentPrefab(ornamentPrefabs[0]);
-        SelectOrnamentMaterial(ornamentMaterials[0]);
+        // SelectOrnamentPrefab(ornamentPrefabs[0]);
+        // SelectOrnamentMaterial(ornamentMaterials[0]);
+        
+        placeButton.onClick.AddListener(OnPlaceButtonClick);
+        
+        cancelButton.onClick.AddListener(() => ornamentMenu.SetActive(false));
     }
-    
+
+    private void OnPlaceButtonClick()
+    {
+        // If the position is valid, place the ornament
+        if (_selectedOrnamentPosition != null)
+        {
+            PlaceCurrentOrnament();
+        }
+    }
+
     private void OnJoined(Session session)
     {
         conjureKitWrapper.OrnamentSystem.OnOrnamentComponentUpdated += OnOrnamentComponentUpdated;
@@ -72,21 +91,14 @@ public class OrnamentSpawner : MonoBehaviour
     
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
     {
-        // Tapped on the same selected button again
-        if (_selectedOrnamentToSpawnData.prefab == ornamentPrefab.name)
-        {
-            // If the position is valid, place the ornament
-            if (_selectedOrnamentPosition != null)
-            {
-                PlaceCurrentOrnament();
-            }
-        }
-        else // Selected a new ornament
+        // Selected a new ornament
+        if (_selectedOrnamentToSpawnData.prefab != ornamentPrefab.name)
         {
             ClearCurrentSelection();
             _selectedOrnamentToSpawnData.prefab = ornamentPrefab.name;
             _selectedOrnamentToSpawnData.text = ornamentPrefab.text;
             _selectedOrnamentToSpawn = Instantiate(ornamentPrefab, environment);
+            SelectOrnamentMaterial(ornamentMaterials[0]);
         }
     }
     
@@ -108,6 +120,12 @@ public class OrnamentSpawner : MonoBehaviour
     private void PlaceCurrentOrnament()
     {
         _selectedOrnamentPosition.AttachedOrnamentData = _selectedOrnamentToSpawnData;
+        Instantiate(confetti, _selectedOrnamentPosition.transform);
+        Destroy(_selectedOrnamentToSpawn.gameObject);
+        _selectedOrnamentToSpawn = null;
+        _selectedOrnamentToSpawnData = new OrnamentData();
+        ornamentMenu.SetActive(false);
+        //domainTreeSpawner.UpdateTree(_selectedOrnamentPosition.Tree);
     }
 
     private void Update()
@@ -130,7 +148,8 @@ public class OrnamentSpawner : MonoBehaviour
         
         // Perform the raycast
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) {
+        if (Physics.Raycast(ray, out hit)) 
+        {
             if (hit.collider.CompareTag("OrnamentPosition"))
             {
                 OrnamentPosition ornamentPosition = hit.collider.GetComponent<OrnamentPosition>();
@@ -142,5 +161,8 @@ public class OrnamentSpawner : MonoBehaviour
                 }
             }
         }
+
+        // _selectedOrnamentToSpawn.Hang(_selectedOrnamentPosition);
+        placeButton.interactable = _selectedOrnamentPosition != null;
     }
 }

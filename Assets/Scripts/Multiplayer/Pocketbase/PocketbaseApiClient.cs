@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Multiplayer.Model;
@@ -36,12 +35,17 @@ namespace Multiplayer.Pocketbase
             };
         }
 
-        public void AddTreeToDomain(string domainId, SerializablePose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
+        public void AddTreeToDomain(string domainId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
         {
             string url = $"{apiUrl}/collections/christmas_trees/records/";
             UnityWebRequest request = new UnityWebRequest(url);
             request.method = "POST";
-            var json = JsonUtility.ToJson(new ChristmasTreeData(domainId, pose, treeData));
+            var json = JsonUtility.ToJson(new ChristmasTreeData
+            {
+                domainId = domainId,
+                pose = SerializablePose.FromPose(pose),
+                data = treeData
+            });
             Debug.Log(json);
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -64,19 +68,27 @@ namespace Multiplayer.Pocketbase
             };
         }
 
-        IEnumerator UpdateRecord(string recordId, string jsonData)
+        public void UpdateTree(string treeId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
         {
-            string url = $"{apiUrl}/{recordId}";
-
-            using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+            string url = $"{apiUrl}/collections/christmas_trees/records/{treeId}";
+            Debug.Log(url);
+            
+            var json = JsonUtility.ToJson(new ChristmasTreeData
             {
-                byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
-                request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
+                id = treeId,
+                pose = SerializablePose.FromPose(pose),
+                data = treeData
+            });
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+            UnityWebRequest request = UnityWebRequest.Put(url, bodyRaw);
+            request.method = "PATCH";
+            Debug.Log(json);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Content-length", (bodyRaw.Length.ToString()));
 
-                yield return request.SendWebRequest();
-
+            request.SendWebRequest().completed += operation =>
+            {
                 if (request.result == UnityWebRequest.Result.ConnectionError ||
                     request.result == UnityWebRequest.Result.ProtocolError)
                 {
@@ -85,8 +97,10 @@ namespace Multiplayer.Pocketbase
                 else
                 {
                     Debug.Log("Update Response: " + request.downloadHandler.text);
+                    ChristmasTreeData christmasTreeData = JsonUtility.FromJson<ChristmasTreeData>(request.downloadHandler.text);
+                    onComplete?.Invoke(christmasTreeData);
                 }
-            }
+            };
         }
     }
 }

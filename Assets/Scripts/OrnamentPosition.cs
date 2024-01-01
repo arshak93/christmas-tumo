@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class OrnamentPosition : MonoBehaviour
 {
+    private ChristmasTree _tree;
     private int _positionIndex = -1;
     private Ornament _attachedOrnament;
     private OrnamentData _attachedOrnamentData;
@@ -22,18 +23,21 @@ public class OrnamentPosition : MonoBehaviour
             _attachedOrnament = Instantiate(ornamentPrefab, this.transform);
             _attachedOrnament.SetMaterial(Resources.Load<Material>("Materials/" + _attachedOrnamentData.material));
             _attachedOrnament.text = _attachedOrnamentData.text;
-
-            string json = JsonUtility.ToJson(_attachedOrnamentData);
-            PlayerPrefs.SetString(gameObject.name, json);
-            PlayerPrefs.Save();
+            //_attachedOrnament.Hang(this);
         }
     }
 
+    public ChristmasTree Tree => _tree;
+
     public bool HasOrnament => _attachedOrnamentData != null;
 
-    public void Initialize(int index)
+    public void Initialize(ChristmasTree tree, int index)
     {
+        _tree = tree;
         _positionIndex = index;
+
+        if (HasOrnament)
+            _attachedOrnamentData.positionIndex = _positionIndex;
     }
 
     private void OnOrnamentComponentUpdated(uint entityId, OrnamentData ornamentData)

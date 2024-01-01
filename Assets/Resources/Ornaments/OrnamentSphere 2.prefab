@@ -282,8 +282,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyRenderer: {fileID: 0}
-  sphereRigidbody: {fileID: 9135153465584098240}
+  hingeJoint: {fileID: 0}
+  hangPoint: {fileID: 0}
   screenshot: {fileID: 21300000, guid: 17804f56920974d298cf691b3e5ad593, type: 3}
+  text: 
 --- !u!1001 &1246307045321669582
 PrefabInstance:
   m_ObjectHideFlags: 0

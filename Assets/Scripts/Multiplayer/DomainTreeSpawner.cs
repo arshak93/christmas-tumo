@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Multiplayer.Model;
+using System.Linq;
 using Multiplayer.Pocketbase;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -32,16 +30,33 @@ namespace Multiplayer
 
         public void AddNewTree(ChristmasTree tree)
         {
-            if(_christmasTrees.ContainsValue(tree))
+            if (_christmasTrees.ContainsValue(tree))
                 return;
-            
-            SerializablePose pose = SerializablePose.FromPose(tree.transform.GetWorldPose());
-            TreeData treeData = tree.GetTreeData();
 
-            pocketbaseClient.AddTreeToDomain(_domainId, pose, treeData, christmasTreeData =>
-            {
-                _christmasTrees.Add(christmasTreeData.id, tree);
-            });
+            pocketbaseClient.AddTreeToDomain(
+                _domainId,
+                tree.transform.GetWorldPose(),
+                tree.GetTreeData(),
+                christmasTreeData =>
+                {
+                    _christmasTrees.Add(christmasTreeData.id, tree);
+                });
+        }
+
+        public void UpdateTree(ChristmasTree tree)
+        {
+            if (!_christmasTrees.ContainsValue(tree))
+                return;
+
+            var treeId = _christmasTrees.First(entry => entry.Value == tree).Key;
+            pocketbaseClient.UpdateTree(
+                treeId, 
+                tree.transform.GetWorldPose(), 
+                tree.GetTreeData(),
+                christmasTreeData =>
+                {
+                    Debug.Log("Tree updated successfully!");
+                });
         }
     }
 }

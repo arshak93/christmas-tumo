@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChristmasScene.unity
     guid: c439a7567a8f44ca89e842e1db87e157
+  - enabled: 0
+    path: Assets/Scenes/DomainEditorScene.unity
+    guid: 0238c9b8de762448d837a88d72ae0a98
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

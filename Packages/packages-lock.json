@@ -30,6 +30,15 @@
       },
       "url": "https://npm.aukiverse.com"
     },
+    "com.aukilabs.unity.ur": {
+      "version": "0.6.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.arfoundation": "4.2.6"
+      },
+      "url": "https://npm.aukiverse.com"
+    },
     "com.siccity.gltfutility": {
       "version": "https://github.com/siccity/gltfutility.git",
       "depth": 0,
@@ -46,13 +55,6 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.collab-proxy": {
-      "version": "2.2.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.editorcoroutines": {
