@@ -4,26 +4,35 @@ This project was created during a 2-week workshop at (TUMO center)[https://tumo.
 
 ## Packages and tools
 
-- (Auki Labs ConjureKit(v0.6.44) and ARFoundation Integration(v0.6.35))[https://conjurekit.dev]
+- [Auki Labs ConjureKit(v0.6.44) and ARFoundation Integration(v0.6.35)](https://conjurekit.dev)
 
-- (XRSimulationEnvironments)[https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/xr-simulation/simulation-overview.html] is used to quickly test the AR features in a simulated environment in Unity Editor.
+- [XRSimulationEnvironments](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/xr-simulation/simulation-overview.html) is used to quickly test the AR features in a simulated environment in Unity Editor.
 
-- (GLTF Utility)[https://github.com/siccity/gltfutility.git] for importing some .glb and .gltf 3D models.
+- [GLTF Utility](https://github.com/siccity/gltfutility.git) for importing some .glb and .gltf 3D models.
 
-- (PocketBase)[https://pocketbase.io/] to store the Christmas tree data.
+- [PocketBase](https://pocketbase.io/) to store the Christmas tree data in a persistant database.
 Check the PocketBase documentation to download and run the database engine.
 Copy the API url to the **Pocketbase Client**'s **Api Url** field in the scene hierarchy.
 
 Create a new collection "christmas_trees" with the following fields:
+
 **domainId**: PlainText
+
 **pose**: JSON
+
 **data**: JSON
+
+![pocketbase](./Screenshots/pocketbase.png)
+
+Go to the **API Rules** tabs and unlock everything.
 
 ## Scenes and main classes
 
 ### Domain Editor Scene
 
-This scene is used for placing trees inside a domain. It uses some of the UI elements and classes from XR Interaction Toolkit samples to place, delete, and move the 3D objects in the space. `DomainTreeSpawner.cs` handles the CRUD operations and communication to the PocketBase backend through `PocketbaseApiClient.cs`
+This scene is used for placing trees inside a domain. It uses some of the UI elements and classes from XR Interaction Toolkit samples to place, delete, and move the 3D objects in the space. `DomainTreeSpawner.cs` handles the CRUD operations and communication to the PocketBase backend through `PocketbaseApiClient.cs`. User can click the prefab button, select the prefab from the menu and tap on the screen to do a raycast from that point to a horizontal plane and instantiate the asset in the raycast hit point.
+
+![domain-editor-scene](./Screenshots/domain-editor-scene.png)
 
 ### ChristmasScene Scene
 
