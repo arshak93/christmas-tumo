@@ -125,7 +125,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.ARStarterAssets
             m_ScreenSpaceController.tapStartPositionAction.action.started += HideTapOutsideUI;
             m_CreateButton.onClick.AddListener(ShowMenu);
             m_CancelButton.onClick.AddListener(HideMenu);
-            m_DeleteButton.onClick.AddListener(DeleteFocusedObject);
+            // m_DeleteButton.onClick.AddListener(DeleteFocusedObject);
         }
 
         void OnDisable()
@@ -135,7 +135,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.ARStarterAssets
             m_ScreenSpaceController.tapStartPositionAction.action.started -= HideTapOutsideUI;
             m_CreateButton.onClick.RemoveListener(ShowMenu);
             m_CancelButton.onClick.RemoveListener(HideMenu);
-            m_DeleteButton.onClick.RemoveListener(DeleteFocusedObject);
+            // m_DeleteButton.onClick.RemoveListener(DeleteFocusedObject);
         }
 
         void Start()

@@ -3,11 +3,17 @@ using System.Linq;
 using Multiplayer.Pocketbase;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 namespace Multiplayer
 {
     public class DomainTreeSpawner : MonoBehaviour
     {
+        [SerializeField] private ObjectSpawner objectSpawner;
+        [SerializeField] XRInteractionGroup interactionGroup;
+        [SerializeField] Button deleteButton;
         [SerializeField] private PocketbaseApiClient pocketbaseClient;
 
         private string _domainId = "712cc24b-99bc-4079-b7d1-6b227b3fde72";
@@ -16,6 +22,9 @@ namespace Multiplayer
 
         private void Start()
         {
+            deleteButton.onClick.AddListener(OnDeleteButtonClicked);
+            objectSpawner.objectSpawned += OnTreeSpawned;
+            
             pocketbaseClient.GetTreesInDomain(_domainId, trees =>
             {
                 foreach (var tree in trees)
@@ -26,6 +35,25 @@ namespace Multiplayer
                     _christmasTrees.Add(tree.id, christmasTree);
                 }
             });
+        }
+
+        private void OnDeleteButtonClicked()
+        {
+            Debug.Log(interactionGroup.focusInteractable);
+            if (interactionGroup.focusInteractable == null)
+                return;
+
+            var tree = interactionGroup.focusInteractable.transform.GetComponent<ChristmasTree>();
+            
+            if(tree != null)
+                DeleteTree(tree);
+        }
+
+        private void OnTreeSpawned(GameObject newTree)
+        {
+            var tree = newTree.GetComponent<ChristmasTree>();
+            if(tree != null)
+                AddNewTree(tree);
         }
 
         public void AddNewTree(ChristmasTree tree)
@@ -56,6 +84,23 @@ namespace Multiplayer
                 christmasTreeData =>
                 {
                     Debug.Log("Tree updated successfully!");
+                });
+        }
+        
+        public void DeleteTree(ChristmasTree tree)
+        {
+            Destroy(tree.gameObject);
+            
+            if (!_christmasTrees.ContainsValue(tree))
+                return;
+
+            var treeId = _christmasTrees.First(entry => entry.Value == tree).Key;
+            pocketbaseClient.DeleteTree(
+                treeId,
+                () =>
+                {
+                    Debug.Log("Tree removed successfully!");
+                    _christmasTrees.Remove(treeId);
                 });
         }
     }

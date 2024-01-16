@@ -130,6 +130,7 @@ MonoBehaviour:
   features: []
   m_renderMode: 1
   m_depthSubmissionMode: 0
+  m_symmetricProjection: 0
 --- !u!114 &-4379152864359031281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +160,7 @@ MonoBehaviour:
   - {fileID: -7547207242821909256}
   m_renderMode: 1
   m_depthSubmissionMode: 0
+  m_symmetricProjection: 0
 --- !u!114 &-4365277527566716286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +294,10 @@ MonoBehaviour:
     manifestName: cambria
     enabled: 1
   forceRemoveInternetPermission: 1
+  symmetricProjection: 0
+  systemSplashScreen: {fileID: 0}
+  lateLatchingMode: 0
+  lateLatchingDebug: 0
 --- !u!114 &-1448478328525412258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,11 +373,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ebc320a151d3408ea1e9fce54d40e, type: 3}
   m_Name: OpenXR Package Settings
   m_EditorClassIdentifier: 
-  Keys: 010000000400000007000000
+  Keys: 01000000040000000700000024000000
   Values:
   - {fileID: 5038435346137038153}
   - {fileID: -5457776339511514466}
   - {fileID: -4379152864359031281}
+  - {fileID: 4970929582115437300}
 --- !u!114 &902406067575139631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +520,22 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
+--- !u!114 &4970929582115437300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a1f07dc5afe854f9f12a4194aca3fb, type: 3}
+  m_Name: VisionOS
+  m_EditorClassIdentifier: 
+  features: []
+  m_renderMode: 1
+  m_depthSubmissionMode: 0
+  m_symmetricProjection: 0
 --- !u!114 &5038435346137038153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +567,7 @@ MonoBehaviour:
   - {fileID: 7773976769066660995}
   m_renderMode: 1
   m_depthSubmissionMode: 0
+  m_symmetricProjection: 0
 --- !u!114 &5565316009381949214
 MonoBehaviour:
   m_ObjectHideFlags: 0

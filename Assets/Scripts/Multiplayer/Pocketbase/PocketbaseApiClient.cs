@@ -102,5 +102,28 @@ namespace Multiplayer.Pocketbase
                 }
             };
         }
+        
+        public void DeleteTree(string treeId, Action onComplete)
+        {
+            string url = $"{apiUrl}/collections/christmas_trees/records/{treeId}";
+            UnityWebRequest request = new UnityWebRequest(url);
+            request.method = "DELETE";
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            request.SendWebRequest().completed += operation =>
+            {
+                if (request.result == UnityWebRequest.Result.ConnectionError ||
+                    request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError(request.error);
+                }
+                else
+                {
+                    Debug.Log("Delete Response: " + request.downloadHandler.text);
+                    onComplete?.Invoke();
+                }
+            };
+        }
     }
 }
