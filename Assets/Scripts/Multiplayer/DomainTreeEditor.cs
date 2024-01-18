@@ -9,10 +9,11 @@ using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 namespace Multiplayer
 {
-    public class DomainTreeSpawner : MonoBehaviour
+    public class DomainTreeEditor : MonoBehaviour
     {
         [SerializeField] private ObjectSpawner objectSpawner;
         [SerializeField] XRInteractionGroup interactionGroup;
+        [SerializeField] XRRayInteractor xrRayInteractor;
         [SerializeField] Button deleteButton;
         [SerializeField] private PocketbaseApiClient pocketbaseClient;
 
@@ -24,6 +25,7 @@ namespace Multiplayer
         {
             deleteButton.onClick.AddListener(OnDeleteButtonClicked);
             objectSpawner.objectSpawned += OnTreeSpawned;
+            xrRayInteractor.selectExited.AddListener(OnInteractableDeselected);
             
             pocketbaseClient.GetTreesInDomain(_domainId, trees =>
             {
@@ -37,9 +39,16 @@ namespace Multiplayer
             });
         }
 
+        private void OnInteractableDeselected(SelectExitEventArgs args)
+        {
+            var tree = args.interactableObject.transform.GetComponent<ChristmasTree>();
+            
+            if(tree != null)
+                UpdateTree(tree);
+        }
+
         private void OnDeleteButtonClicked()
         {
-            Debug.Log(interactionGroup.focusInteractable);
             if (interactionGroup.focusInteractable == null)
                 return;
 
@@ -68,7 +77,13 @@ namespace Multiplayer
                 christmasTreeData =>
                 {
                     _christmasTrees.Add(christmasTreeData.id, tree);
+                    //tree.GetComponent<XRGrabInteractable>()
                 });
+        }
+
+        public void Log(string text)
+        {
+            Debug.Log(text);
         }
 
         public void UpdateTree(ChristmasTree tree)

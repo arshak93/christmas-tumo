@@ -9,7 +9,7 @@ namespace Multiplayer.Pocketbase
 {
     public class PocketbaseApiClient : MonoBehaviour
     {
-        [SerializeField] private string apiUrl = "http://127.0.0.1:8090/api";
+        private string apiUrl = "http://127.0.0.1:8090/api";
 
         public void GetTreesInDomain(string domainId, Action<List<ChristmasTreeData>> onComplete)
         {
