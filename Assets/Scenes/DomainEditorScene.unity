@@ -1672,6 +1672,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e4c509417774e7e8a8784a2739de68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &694703563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 694703564}
+  m_Layer: 5
+  m_Name: Main Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &694703564
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694703563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1051112630}
+  - {fileID: 1917828112}
+  - {fileID: 1428024150}
+  m_Father: {fileID: 1514135554}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &702413256
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,7 +2634,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 754599663}
-  m_Father: {fileID: 1514135554}
+  m_Father: {fileID: 694703564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -3148,7 +3186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scan a posemesh domain QR code to decorate a Christmas tree
+  m_text: Scan a posemesh domain QR code to place a Christmas tree
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3249,15 +3287,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297366908}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 724eaee3d29f24b7fa562c4ced47560c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   arCamera: {fileID: 1646771085}
-  environment: {fileID: 0}
-  mainMenu: {fileID: 0}
-  ornamentsButton: {fileID: 0}
 --- !u!4 &1297366910
 Transform:
   m_ObjectHideFlags: 0
@@ -3748,7 +3783,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 190002084}
-  m_Father: {fileID: 1514135554}
+  m_Father: {fileID: 694703564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -3805,6 +3840,7 @@ GameObject:
   - component: {fileID: 1514135552}
   - component: {fileID: 1514135551}
   - component: {fileID: 1514135550}
+  - component: {fileID: 1514135555}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3908,9 +3944,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1659220571}
-  - {fileID: 1051112630}
-  - {fileID: 1917828112}
-  - {fileID: 1428024150}
+  - {fileID: 694703564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3918,6 +3952,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1514135555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514135549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f8436d983043009d05f5183c0a479c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conjureKitWrapper: {fileID: 1297366909}
+  scanQRMenu: {fileID: 1659220570}
+  mainMenu: {fileID: 694703563}
 --- !u!1 &1580422494
 GameObject:
   m_ObjectHideFlags: 0
@@ -4148,7 +4197,7 @@ GameObject:
   - component: {fileID: 1609584655}
   - component: {fileID: 1609584654}
   m_Layer: 0
-  m_Name: Domain Tree Spawner
+  m_Name: Domain Tree Editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4166,6 +4215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0890075f0e47c588e5d9918f6facd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conjureKitWrapper: {fileID: 1297366909}
   objectSpawner: {fileID: 1866051984}
   interactionGroup: {fileID: 615776794}
   xrRayInteractor: {fileID: 980760028}
@@ -4302,7 +4352,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.000015258789, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1659220572
@@ -4897,7 +4947,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1866051984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5078,7 +5128,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 974495089}
-  m_Father: {fileID: 1514135554}
+  m_Father: {fileID: 694703564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}

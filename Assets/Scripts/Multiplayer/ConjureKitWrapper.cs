@@ -1,25 +1,22 @@
 using System;
 using Auki.ConjureKit;
 using Auki.ConjureKit.Manna;
+using Auki.Integration.ARFoundation.Manna;
 using UnityEngine;
 
 public class ConjureKitWrapper : MonoBehaviour
 {
     [SerializeField] private Transform arCamera;
-    [SerializeField] private Transform environment;
-    [SerializeField] private MainMenu mainMenu;
-    [SerializeField] private GameObject ornamentsButton;
 
     public IConjureKit ConjureKit => _conjureKit;
-
-    public Action<Session> OnJoined;
+    public event Action<string> OnDomainEntered;
 
     private IConjureKit _conjureKit;
     private Manna _manna;
 
-    public ResourcePrefabSystem ResourcePrefabSystem { get; private set; }
-    public OrnamentSystem OrnamentSystem { get; private set; }
-    
+    private string _currentDomainId;
+    private bool _isNewDomain;
+
     private void Start()
     {
         _conjureKit = new ConjureKit(
@@ -27,41 +24,36 @@ public class ConjureKitWrapper : MonoBehaviour
             "d69fb2b9-3e83-47c8-95a2-26a12796e2e1",
             "6764b692-e8d0-4a07-baff-c0804d4b4ece96254774-50a1-4818-b96b-0992cacb8a26");
         
-        _conjureKit.OnJoined += session =>
-        {
-            ResourcePrefabSystem = new ResourcePrefabSystem(session);
-            OrnamentSystem = new OrnamentSystem(session);
-            session.RegisterSystem(ResourcePrefabSystem, () => Debug.Log("Resource Prefab system registered successfully"));
-            session.RegisterSystem(OrnamentSystem, () => Debug.Log("Ornament system registered successfully"));
-            
-            OnJoined?.Invoke(session);
-        };
-
         _manna = new Manna(_conjureKit);
+
+#if UNITY_EDITOR
+        arCamera.gameObject.AddComponent<FrameFeederEditor>().AttachMannaInstance(_manna);
+#else
         _manna.GetOrCreateFrameFeederComponent().AttachMannaInstance(_manna);
+#endif
 
         _manna.OnLighthouseTracked += OnQRCodeDetected;
-        
         _manna.SetStaticLighthousePoseSelector(OnStaticLighthouseScanned);
         
         _conjureKit.Init(ConjureKitConfiguration.Get());
-
-        //_conjureKit.Connect();
     }
 
-    private void OnStaticLighthouseScanned(LighthousePose[] lighthouses, Action<LighthousePose> SelectLighthouse)
+    private void OnStaticLighthouseScanned(LighthousePose[] lighthouses, Action<LighthousePose> selectLighthouse)
     {
-        
+        if (lighthouses[0].domainId != _currentDomainId)
+        {
+            _isNewDomain = true;
+            _currentDomainId = lighthouses[0].domainId;
+            selectLighthouse?.Invoke(lighthouses[0]);
+        }
     }
 
     private void OnQRCodeDetected(Lighthouse lighthouse, Pose pose, bool isClose)
     {
-        mainMenu.gameObject.SetActive(false);
-        ornamentsButton.SetActive(true);
-        environment.gameObject.SetActive(true);
-        environment.transform.position = pose.position;
-        var eulerAngles = environment.transform.rotation.eulerAngles;
-        eulerAngles.y = pose.rotation.eulerAngles.y;
-        //environment.transform.rotation = Quaternion.Euler(eulerAngles);
+        if (isClose && _isNewDomain)
+        {
+            _isNewDomain = false;
+            OnDomainEntered?.Invoke(_currentDomainId);
+        }
     }
 }

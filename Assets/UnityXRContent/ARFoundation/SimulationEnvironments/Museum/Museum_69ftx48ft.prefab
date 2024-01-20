@@ -4275,11 +4275,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3090791288486868750, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090791288486868750, guid: 3fb046bec96617641bce0a0cd1a0ae81,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4431,37 +4426,37 @@ PrefabInstance:
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.position.x
-      value: -12.475216
+      value: -12.86887
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.position.y
-      value: 2.5514784
+      value: 0.5599012
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.position.z
-      value: -7.4779983
+      value: -6.907859
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.rotation.w
-      value: 0.8148555
+      value: 0.9263781
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.rotation.x
-      value: 0.017373791
+      value: 0.03825178
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.rotation.y
-      value: 0.57927245
+      value: 0.3743281
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}
       propertyPath: m_CameraStartingPose.rotation.z
-      value: -0.012336556
+      value: -0.015456666
       objectReference: {fileID: 0}
     - target: {fileID: 7390912614923105628, guid: 3fb046bec96617641bce0a0cd1a0ae81,
         type: 3}

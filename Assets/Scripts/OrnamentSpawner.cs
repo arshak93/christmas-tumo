@@ -33,8 +33,6 @@ public class OrnamentSpawner : MonoBehaviour
     
     void Start()
     {
-        conjureKitWrapper.OnJoined += OnJoined;
-        
         // Create the ornament buttons
         foreach (var ornament in ornamentPrefabs)
         {
@@ -74,11 +72,6 @@ public class OrnamentSpawner : MonoBehaviour
         {
             PlaceCurrentOrnament();
         }
-    }
-
-    private void OnJoined(Session session)
-    {
-        conjureKitWrapper.OrnamentSystem.OnOrnamentComponentUpdated += OnOrnamentComponentUpdated;
     }
     
     private void OnOrnamentComponentUpdated(uint entityId, OrnamentData data)

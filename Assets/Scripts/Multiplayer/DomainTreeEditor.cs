@@ -11,6 +11,7 @@ namespace Multiplayer
 {
     public class DomainTreeEditor : MonoBehaviour
     {
+        [SerializeField] private ConjureKitWrapper conjureKitWrapper;
         [SerializeField] private ObjectSpawner objectSpawner;
         [SerializeField] XRInteractionGroup interactionGroup;
         [SerializeField] XRRayInteractor xrRayInteractor;
@@ -23,9 +24,16 @@ namespace Multiplayer
 
         private void Start()
         {
+            conjureKitWrapper.OnDomainEntered += OnDomainEntered; 
             deleteButton.onClick.AddListener(OnDeleteButtonClicked);
             objectSpawner.objectSpawned += OnTreeSpawned;
             xrRayInteractor.selectExited.AddListener(OnInteractableDeselected);
+        }
+
+        private void OnDomainEntered(string domainId)
+        {
+            objectSpawner.gameObject.SetActive(true);
+            _domainId = domainId;
             
             pocketbaseClient.GetTreesInDomain(_domainId, trees =>
             {
@@ -77,7 +85,6 @@ namespace Multiplayer
                 christmasTreeData =>
                 {
                     _christmasTrees.Add(christmasTreeData.id, tree);
-                    //tree.GetComponent<XRGrabInteractable>()
                 });
         }
 
