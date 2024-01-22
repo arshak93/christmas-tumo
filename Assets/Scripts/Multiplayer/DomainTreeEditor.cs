@@ -88,11 +88,6 @@ namespace Multiplayer
                 });
         }
 
-        public void Log(string text)
-        {
-            Debug.Log(text);
-        }
-
         public void UpdateTree(ChristmasTree tree)
         {
             if (!_christmasTrees.ContainsValue(tree))

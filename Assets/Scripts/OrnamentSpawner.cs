@@ -1,29 +1,23 @@
 using System.Collections.Generic;
-using Auki.ConjureKit;
+using Multiplayer;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OrnamentSpawner : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform environment;
     [SerializeField] private List<Ornament> ornamentPrefabs;
     [SerializeField] private List<Material> ornamentMaterials;
     [SerializeField] private OrnamentButton ornamentButtonPrefab;
     [SerializeField] private ColorButton colorButtonPrefab;
     [SerializeField] private Transform ornamentButtonContent;
     [SerializeField] private Transform colorButtonContent;
-    //[SerializeField] private DomainTreeSpawner domainTreeSpawner;
+    [SerializeField] private DomainTreeSpawner domainTreeSpawner;
     
-    [SerializeField] private ConjureKitWrapper conjureKitWrapper;
     [SerializeField] private Button cancelButton;
     [SerializeField] private Button placeButton;
-    [SerializeField] private GameObject ornamentMenu;
     [SerializeField] private Confetti confetti;
 
-    private Dictionary<uint, Ornament> _ornaments =
-        new Dictionary<uint, Ornament>();
-     
     // Selected ornament to spawn
     private Ornament _selectedOrnamentToSpawn;
     // Selected ornament to spawn data
@@ -53,7 +47,7 @@ public class OrnamentSpawner : MonoBehaviour
             button.OnButtonClick += () => SelectOrnamentMaterial(material);
         }
         
-        // Disable the ornament button prefab
+        // Disable the color button prefab
         colorButtonPrefab.gameObject.SetActive(false);
         
         // Start with the first ornament and the first color selected
@@ -61,8 +55,6 @@ public class OrnamentSpawner : MonoBehaviour
         // SelectOrnamentMaterial(ornamentMaterials[0]);
         
         placeButton.onClick.AddListener(OnPlaceButtonClick);
-        
-        cancelButton.onClick.AddListener(() => ornamentMenu.SetActive(false));
     }
 
     private void OnPlaceButtonClick()
@@ -74,14 +66,6 @@ public class OrnamentSpawner : MonoBehaviour
         }
     }
     
-    private void OnOrnamentComponentUpdated(uint entityId, OrnamentData data)
-    {
-        if (!_ornaments.ContainsKey(entityId))
-            return;
-        
-        _ornaments[entityId].SetData(data);
-    }
-    
     private void SelectOrnamentPrefab(Ornament ornamentPrefab)
     {
         // Selected a new ornament
@@ -90,7 +74,8 @@ public class OrnamentSpawner : MonoBehaviour
             ClearCurrentSelection();
             _selectedOrnamentToSpawnData.prefab = ornamentPrefab.name;
             _selectedOrnamentToSpawnData.text = ornamentPrefab.text;
-            _selectedOrnamentToSpawn = Instantiate(ornamentPrefab, environment);
+            _selectedOrnamentToSpawn = Instantiate(ornamentPrefab);
+            _selectedOrnamentToSpawn.transform.localScale = Vector3.one * 0.3f;
             SelectOrnamentMaterial(ornamentMaterials[0]);
         }
     }
@@ -117,8 +102,7 @@ public class OrnamentSpawner : MonoBehaviour
         Destroy(_selectedOrnamentToSpawn.gameObject);
         _selectedOrnamentToSpawn = null;
         _selectedOrnamentToSpawnData = new OrnamentData();
-        ornamentMenu.SetActive(false);
-        //domainTreeSpawner.UpdateTree(_selectedOrnamentPosition.Tree);
+        domainTreeSpawner.UpdateTree(_selectedOrnamentPosition.Tree);
     }
 
     private void Update()
@@ -131,8 +115,7 @@ public class OrnamentSpawner : MonoBehaviour
             mainCamera.transform.forward * 0.8f;
 
         _selectedOrnamentPosition = null;
-
-
+        
         // Calculate the center of the viewport
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
 
