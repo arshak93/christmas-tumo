@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class OrnamentPosition : MonoBehaviour
 {
+    public enum Type
+    {
+        Regular,
+        Top
+    }
+
+    [SerializeField] private Type type;
+    
     private ChristmasTree _tree;
     private int _positionIndex = -1;
     private Ornament _attachedOrnament;
@@ -19,16 +27,16 @@ public class OrnamentPosition : MonoBehaviour
             
             _attachedOrnamentData = value;
             _attachedOrnamentData.positionIndex = _positionIndex;
-            Ornament ornamentPrefab = Resources.Load<Ornament>("Ornaments/" + _attachedOrnamentData.prefab);
+            Ornament ornamentPrefab = Resources.Load<Ornament>($"Ornaments/{_attachedOrnamentData.prefab}");
             _attachedOrnament = Instantiate(ornamentPrefab, this.transform);
-            _attachedOrnament.SetMaterial(Resources.Load<Material>("Materials/" + _attachedOrnamentData.material));
-            _attachedOrnament.text = _attachedOrnamentData.text;
-            //_attachedOrnament.Hang(this);
+            
+            if(ornamentPrefab.SupportedMaterials != Ornament.SupportedMaterialType.None)
+                _attachedOrnament.SetMaterial(Resources.Load<Material>($"Materials/{ornamentPrefab.SupportedMaterials}/{_attachedOrnamentData.material}"));
         }
     }
 
+    public Type PositionType=> type;
     public ChristmasTree Tree => _tree;
-
     public bool HasOrnament => _attachedOrnamentData != null;
 
     public void Initialize(ChristmasTree tree, int index)
@@ -38,14 +46,6 @@ public class OrnamentPosition : MonoBehaviour
 
         if (HasOrnament)
             _attachedOrnamentData.positionIndex = _positionIndex;
-    }
-
-    private void OnOrnamentComponentUpdated(uint entityId, OrnamentData ornamentData)
-    {
-        if (ornamentData.positionIndex == _positionIndex)
-        {
-            AttachedOrnamentData = ornamentData;
-        }
     }
 
     public void RemoveOrnament()

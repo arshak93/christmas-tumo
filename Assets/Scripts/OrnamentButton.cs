@@ -6,9 +6,14 @@ using UnityEngine.UI;
 public class OrnamentButton : MonoBehaviour
 {
     [SerializeField] private Image screenshotImage;
-    [SerializeField] private Image checkmark;
+    [SerializeField] private Image selectionBox;
 
-    public event Action OnButtonClick; 
+    public event Action OnButtonClick;
+    
+    private void Start()
+    {
+        SetSelected(false);
+    }
 
     public void SetScreenshot(Sprite sprite)
     {
@@ -18,5 +23,10 @@ public class OrnamentButton : MonoBehaviour
     public void OnClick()
     {
         OnButtonClick?.Invoke();
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        selectionBox.gameObject.SetActive(isSelected);
     }
 }

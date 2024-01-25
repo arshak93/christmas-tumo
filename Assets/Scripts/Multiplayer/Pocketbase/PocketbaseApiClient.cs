@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
 using Multiplayer.Model;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,7 +14,9 @@ namespace Multiplayer.Pocketbase
 
         public void GetTreesInDomain(string domainId, Action<List<ChristmasTreeData>> onComplete)
         {
-            string url = $"{apiUrl}/collections/christmas_trees/records?filters=domainId={domainId}";
+            string filter = $"(domainId='{domainId}')";
+            filter = HttpUtility.UrlEncode(filter);
+            string url = $"{apiUrl}/collections/christmas_trees/records?filter={filter}";
             UnityWebRequest request = new UnityWebRequest(url);
             request.method = "GET";
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -29,6 +32,7 @@ namespace Multiplayer.Pocketbase
                     Debug.Log("Response: " + request.downloadHandler.text);
                     GetTreesResponse response = JsonUtility.FromJson<GetTreesResponse>(request.downloadHandler.text);
                     onComplete?.Invoke(response.items);
+                    Debug.Log(response.items.Count);
                 }
 
                 request.Dispose();
@@ -68,7 +72,7 @@ namespace Multiplayer.Pocketbase
             };
         }
 
-        public void UpdateTree(string treeId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
+        public void UpdateTree(string treeId, string domainId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
         {
             string url = $"{apiUrl}/collections/christmas_trees/records/{treeId}";
             Debug.Log(url);
@@ -76,6 +80,7 @@ namespace Multiplayer.Pocketbase
             var json = JsonUtility.ToJson(new ChristmasTreeData
             {
                 id = treeId,
+                domainId = domainId,
                 pose = SerializablePose.FromPose(pose),
                 data = treeData
             });

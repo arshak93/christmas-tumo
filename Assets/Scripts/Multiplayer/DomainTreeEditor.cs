@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Multiplayer.Pocketbase;
@@ -28,6 +29,14 @@ namespace Multiplayer
             deleteButton.onClick.AddListener(OnDeleteButtonClicked);
             objectSpawner.objectSpawned += OnTreeSpawned;
             xrRayInteractor.selectExited.AddListener(OnInteractableDeselected);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                pocketbaseClient.GetTreesInDomain(_domainId, trees => { });
+            }
         }
 
         private void OnDomainEntered(string domainId)
@@ -95,7 +104,8 @@ namespace Multiplayer
 
             var treeId = _christmasTrees.First(entry => entry.Value == tree).Key;
             pocketbaseClient.UpdateTree(
-                treeId, 
+                treeId,
+                _domainId,
                 tree.transform.GetWorldPose(), 
                 tree.GetTreeData(),
                 christmasTreeData =>

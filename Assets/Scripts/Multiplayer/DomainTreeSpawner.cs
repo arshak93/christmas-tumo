@@ -43,7 +43,8 @@ namespace Multiplayer
 
             var treeId = _christmasTrees.First(entry => entry.Value == tree).Key;
             pocketbaseClient.UpdateTree(
-                treeId, 
+                treeId,
+                _domainId,
                 tree.transform.GetWorldPose(), 
                 tree.GetTreeData(),
                 christmasTreeData =>
