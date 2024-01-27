@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using Multiplayer.Model;
+using Posemesh.Pocketbase.Model;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Multiplayer.Pocketbase
+namespace Posemesh.Pocketbase
 {
     public class PocketbaseApiClient : MonoBehaviour
     {
-        private string apiUrl = "http://127.0.0.1:8090/api";
-
+        private string _apiUrl = "http://127.0.0.1:8090/api";
+        
         public void GetTreesInDomain(string domainId, Action<List<ChristmasTreeData>> onComplete)
         {
             string filter = $"(domainId='{domainId}')";
             filter = HttpUtility.UrlEncode(filter);
-            string url = $"{apiUrl}/collections/christmas_trees/records?filter={filter}";
+            string url = $"{_apiUrl}/collections/christmas_trees/records?filter={filter}";
             UnityWebRequest request = new UnityWebRequest(url);
             request.method = "GET";
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -41,7 +41,7 @@ namespace Multiplayer.Pocketbase
 
         public void AddTreeToDomain(string domainId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
         {
-            string url = $"{apiUrl}/collections/christmas_trees/records/";
+            string url = $"{_apiUrl}/collections/christmas_trees/records/";
             UnityWebRequest request = new UnityWebRequest(url);
             request.method = "POST";
             var json = JsonUtility.ToJson(new ChristmasTreeData
@@ -74,7 +74,7 @@ namespace Multiplayer.Pocketbase
 
         public void UpdateTree(string treeId, string domainId, Pose pose, TreeData treeData, Action<ChristmasTreeData> onComplete)
         {
-            string url = $"{apiUrl}/collections/christmas_trees/records/{treeId}";
+            string url = $"{_apiUrl}/collections/christmas_trees/records/{treeId}";
             Debug.Log(url);
             
             var json = JsonUtility.ToJson(new ChristmasTreeData
@@ -110,7 +110,7 @@ namespace Multiplayer.Pocketbase
         
         public void DeleteTree(string treeId, Action onComplete)
         {
-            string url = $"{apiUrl}/collections/christmas_trees/records/{treeId}";
+            string url = $"{_apiUrl}/collections/christmas_trees/records/{treeId}";
             UnityWebRequest request = new UnityWebRequest(url);
             request.method = "DELETE";
             request.downloadHandler = new DownloadHandlerBuffer();

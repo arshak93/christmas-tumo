@@ -1,176 +1,66 @@
 # Project overview
 
-This project was created during a 2-week workshop at (TUMO center)[https://tumo.org/] to create a simple AR christmas tree that can be placed in a domain and decorated with friends and family. Here's the quick overview of the project and the components used.
+This project created together with the (TUMO center)[https://tumo.org/] students during a 2-week workshop demonstrates some of the basic features of a posemesh. It allows users to place AR christmas tree that have persistent position in the physical space and decoreate it with friends and family. It demonstrates how to place virtual assets, interact with them, save and load data to a custom backend and test the AR setup in simulated environment in Unity Editor.
 
 ## Packages and tools
 
-- [Auki Labs ConjureKit(v0.6.44) and ARFoundation Integration(v0.6.35)](https://conjurekit.dev)
+- [Auki Labs ConjureKit(v0.6.44), ARFoundation Integration(v0.6.35) and Manna (v0.6.58)](https://conjurekit.dev) are used to interact with the posemesh protocol and provide persistant positioning in AR.
 
 - [XRSimulationEnvironments](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/xr-simulation/simulation-overview.html) is used to quickly test the AR features in a simulated environment in Unity Editor.
 
-- [GLTF Utility](https://github.com/siccity/gltfutility.git) for importing some .glb and .gltf 3D models.
+- [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.5/manual/index.html) for placing and manipulating assets in AR as well as example assets and scripts from the package samples.
+
+- [GLTF Utility](https://github.com/siccity/gltfutility.git) for importing some .glb and .gltf 3D models. Some of the students used the [Luma AI](https://lumalabs.ai/) app to scan real world objects and display them in AR.
 
 - [PocketBase](https://pocketbase.io/) to store the Christmas tree data in a persistant database.
+
+## Setup
+
+### Posemesh Domain
+
+Follow the instructions on the ConjureKit documantation website (link TBA) to create an account on the posemesh console, setup a domain and download the posemesh QR code.
+Import the downloaded QR code to the **Assets/QR** folder and assign it as the **Base Map** on the **Auki_QRCode** material located in the same folder. You should now see your QR code on the floor of the [Museum simulation environment](./Assets/UnityXRContent/ARFoundation/SimulationEnvironments/Museum/Museum_69ftx48ft) prefab, named **Auki QR**. Make sure that the game object scale matches the physical size you used when generating the QR code on the posemesh console (e.g., 0.05 in Unity is 5cm in the real world).
+
+### PocketBase
+
 Check the PocketBase documentation to download and run the database engine.
-Copy the API url to the **Pocketbase Client**'s **Api Url** field in the scene hierarchy.
+Copy the API url to the **PocketbaseApiClient.cs** **_apiUrl** field. Your localhost url (e.g., http://127.0.0.1:8090/api) should be enough for testing in the editor, but if you want to run the app on mobile you'll either need to run PocketBase in cloud or use tools like [ngrok](https://ngrok.com/use-cases/ingress-for-dev-test-environments) to make your local PocketBase server accessable over the internet.
 
-Create a new collection "christmas_trees" with the following fields:
+On the PocketBase admin website go to Settings -> Import Collections and import this [pb_schema.json](./ReadmeAssets/pb_schema.json) to configure the database with the *christmas_trees* collection.
 
-**domainId**: PlainText
+![pocketbase](./ReadmeAssets/pocketbase.png)
 
-**pose**: JSON
-
-**data**: JSON
-
-![pocketbase](./Screenshots/pocketbase.png)
-
-Go to the **API Rules** tabs and unlock everything.
+Then from the collection settings page go to the **API Rules** tabs and unlock all rules.
 
 ## Scenes and main classes
 
 ### Domain Editor Scene
 
-This scene is used for placing trees inside a domain. It uses some of the UI elements and classes from XR Interaction Toolkit samples to place, delete, and move the 3D objects in the space. `DomainTreeSpawner.cs` handles the CRUD operations and communication to the PocketBase backend through `PocketbaseApiClient.cs`. User can click the prefab button, select the prefab from the menu and tap on the screen to do a raycast from that point to a horizontal plane and instantiate the asset in the raycast hit point.
+This scene is used for placing trees inside a domain. It uses some of the UI elements and classes from XR Interaction Toolkit samples to place, delete, and move the 3D objects in the space.
 
-![domain-editor-scene](./Screenshots/domain-editor-scene.png)
+`DomainTreeSpawner.cs` handles the create, read, update and delete operations and communication to the PocketBase backend through `PocketbaseApiClient.cs`. User can click the prefab button, select the prefab from the menu and tap on the screen to do a raycast from that point to a horizontal plane and instantiate the asset in the raycast hit point. You can then hold and drag the asset along the horizontal plane.
+
+`ConjureKitWrapper.cs` initializes the ConjureKit SDK and handles the calibration process, which will automatically modify your Unity coordinate space to match with the information stored in the domain. Once calibrated any previously stored position and rotation information will match the same physical location. Without it the coordinates will change every time you start the app based on the devices location and the persistancy will be imposible.
+
+Build and run the `DomainEditorScene` to scan into a domain, place the trees and save their Pose to PocketBase.
+
+![domain-editor-scene](./ReadmeAssets/domain-editor-scene-demo.gif)
 
 ### ChristmasScene Scene
 
 This scene loads the existing trees in the domain and allows the user to decorate using various available ornaments.
 
-### OrnamentSpawner.cs
+`OrnamentSpawner.cs` handles selecting and previewing the ornament and material from the menu, performes a raycast from the center of the screen to select a valid `OrnamentPosition` on the tree and place or remove an `Ornament`.
 
-The scene hierarchy has a **OrnamentSpawner** game object with the `OrnamentSpawner.cs` class attached to it. It stores the list of all the available ornaments and materials for them.
+The `DomainTreeSpawner.cs` loads and spawns the existing trees in the domain and updates the tree data on the PocketBase through `PocketbaseApiClient.cs` when the user adds or removes an ornament from it.
 
-```csharp
-public class OrnamentSpawner : MonoBehaviour { 
- 
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform environment;
-    [SerializeField] private List<Ornament> ornamentPrefabs;
-    [SerializeField] private List<Material> ornamentMaterials;
-    [SerializeField] private OrnamentButton ornamentButtonPrefab;
-    [SerializeField] private ColorButton colorButtonPrefab;
-    [SerializeField] private Transform ornamentButtonContent;
-    [SerializeField] private Transform colorButtonContent;
+### Remaining classes
 
-```
-On `Start` it creates buttons for each ornament type and material and on `Update` does a raycast from the screen center.
-If the raycast hit a valid `OrnamentPosition` on the tree the current ornament will be placed there.
+The classes in [Scripts/Posemesh/Pocketbase/Model](Assets/Scripts/Posemesh/Pocketbase/Model) folder are used to serialize and deserialize the Christmas tree and ornament data to JSON used when communicating with PocketBase.
 
-### ChristmasTree.cs
+The [FrameFeederEditor.cs](Assets/Scripts/Posemesh/FrameFeederEditor.cs) is used to enable the Manna QR detection in the simulation environments in Unity Editor.
 
-The `ChristmasTree.cs` class on the `Environment/House with trees` game object is responsible for configuring the positions where an ornament can be placed.
-This class has the list of all the ornament positions and initializes them on `Start`. If there is information about previously placed ornaments in the `PlayerPrefs`
-it will be passed to the position to recreate the ornament.
-
-```csharp
-public class ChristmasTree : MonoBehaviour
-{
-    [SerializeField] private ConjureKitWrapper conjureKitWrapper;
-    [SerializeField] private List<Transform> ornamentPositions = new List<Transform>();
-
-    private void Start()
-    {
-        for (var i = 0; i < ornamentPositions.Count; i++)
-        {
-            var ornamentPositionTransform = ornamentPositions[i];
-            OrnamentPosition ornamentPosition = ornamentPositionTransform.gameObject.AddComponent<OrnamentPosition>();
-            ornamentPosition.Initialize(i, conjureKitWrapper.OrnamentSystem);
-
-            if (PlayerPrefs.HasKey(ornamentPosition.name))
-            {
-                string json = PlayerPrefs.GetString(ornamentPosition.name);
-                OrnamentData ornamentData = JsonUtility.FromJson<OrnamentData>(json);
-                ornamentPosition.AttachedOrnamentData = ornamentData;
-            }
-        }
-    }
-}
-```
-
-### OrnamentPosition.cs
-
-This class represents the places where the ornaments can be hung from. When new `OrnamentData` is passed to the position
-a new `Ornament` will be instantiated and the information will be saved in `PlayerPrefs`.
-
-```csharp
-public OrnamentData AttachedOrnamentData
-{
-    get
-    {
-        return _attachedOrnamentData;
-    }
-    set
-    {
-        RemoveOrnament();
-        
-        _attachedOrnamentData = value;
-        _attachedOrnamentData.positionIndex = _positionIndex;
-        Ornament ornamentPrefab = Resources.Load<Ornament>("Ornaments/" + _attachedOrnamentData.prefab);
-        _attachedOrnament = Instantiate(ornamentPrefab, this.transform);
-        _attachedOrnament.SetMaterial(Resources.Load<Material>("Materials/" + _attachedOrnamentData.material));
-        _attachedOrnament.text = _attachedOrnamentData.text;
-
-        string json = JsonUtility.ToJson(_attachedOrnamentData);
-        PlayerPrefs.SetString(gameObject.name, json);
-        PlayerPrefs.Save();
-    }
-}
-```
-
-### OrnamentData.cs
-
-This is the data class that stores all the information about an ornament. It is used to save the previous tree state in the `PlayerPrefs`.
-
-```csharp
-public class OrnamentData
-{
-    public int positionIndex;
-    public string prefab;
-    public string material;
-    public string text;
-}
-```
-
-### ConjureKitWrapper.cs
-
-The `ConjureKitWrapper.cs` class attached to the `ConjureKitWrapper` game object in the hierarchy is responsible for initializing the ConjureKit classes.
-Please enter your AppKey and AppSecret from the `console.posemesh.org` here.
-
-```csharp
-private void Start()
-    {
-        _conjureKit = new ConjureKit(
-            arCamera,
-            "YOUR_APP_KEY",
-            "YOUR_APP_SECRET");
-```
-
-When a lighthouse QR code is detected the environment is placed on top of it.
-
-```csharp
-private void OnQRCodeDetected(Lighthouse lighthouse, Pose pose, bool isClose)
-{
-    environment.transform.position = pose.position;
-}
-```
-
-You can modify this to place the environment in your physical space first, store the position information and place on in that position
-when the QR is detected. ConjureKit will make sure the stored position always represents the same location in the physical space.
-
-### OrnamentSystem.cs
-
-The `OrnamentSystem` is the ConjureKit ECS system responsible for sending and receiving real time multiplayer updates about placed ornaments.
-It is registered with the ConjureKit when the user joins a new session.
-
-```csharp
-_conjureKit.OnJoined += session =>
-{
-    OrnamentSystem = new OrnamentSystem(session);
-    session.RegisterSystem(OrnamentSystem, () => Debug.Log("Ornament system registered successfully"));
-};
-```
+The UI classes in [Scripts/UI](Assets/Scripts/UI) folder handle the basic UI button and menu interactions.
 
 ## Adding new ornaments
 

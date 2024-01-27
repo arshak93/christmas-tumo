@@ -342,7 +342,7 @@ MonoBehaviour:
   - {fileID: 7640597654972837929}
   - {fileID: 15453958088298320}
   - {fileID: 2787172932856253932}
-  timeBetweenChanges: 2
+  timeBetweenChanges: 0.5
 --- !u!1 &4076631774697968297
 GameObject:
   m_ObjectHideFlags: 0

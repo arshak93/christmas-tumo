@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Multiplayer.Model;
+using Posemesh.Pocketbase.Model;
 using UnityEngine;
 using UnityEngine.Serialization;
 

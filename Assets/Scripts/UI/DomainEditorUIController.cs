@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class DomainEditorUIController : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private ConjureKitWrapper conjureKitWrapper;
-    [SerializeField] private GameObject scanQRMenu;
-    [SerializeField] private GameObject mainMenu;
-
-    private void Start()
+    public class DomainEditorUIController : MonoBehaviour
     {
-        conjureKitWrapper.OnDomainEntered += OnDomainEntered;
-    }
+        [SerializeField] private ConjureKitWrapper conjureKitWrapper;
+        [SerializeField] private GameObject scanQRMenu;
+        [SerializeField] private GameObject mainMenu;
 
-    private void OnDomainEntered(string obj)
-    {
-        scanQRMenu.SetActive(false);
-        mainMenu.SetActive(true);
+        private void Start()
+        {
+            conjureKitWrapper.OnDomainEntered += OnDomainEntered;
+        }
+
+        private void OnDomainEntered(string obj)
+        {
+            scanQRMenu.SetActive(false);
+            mainMenu.SetActive(true);
+        }
     }
 }
