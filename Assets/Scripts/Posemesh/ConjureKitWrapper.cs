@@ -23,8 +23,8 @@ namespace Posemesh
             // Initialize ConjureKit and Manna modules
             _conjureKit = new ConjureKit(
                 arCamera,
-                "YOUR_APP_KEY",
-                "YOUR_APP_SECRET");
+                "d69fb2b9-3e83-47c8-95a2-26a12796e2e1",
+                "6764b692-e8d0-4a07-baff-c0804d4b4ece96254774-50a1-4818-b96b-0992cacb8a26");
         
             _manna = new Manna(_conjureKit);
 

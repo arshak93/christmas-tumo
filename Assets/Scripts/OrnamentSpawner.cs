@@ -144,7 +144,6 @@ public class OrnamentSpawner : MonoBehaviour
     private void ClearCurrentSelection()
     {
         // Delete the old ornament preview
-        _selectedOrnamentToSpawnData.prefab = null;
         if (_selectedOrnamentPreview != null)
         {
             Destroy(_selectedOrnamentPreview.gameObject);

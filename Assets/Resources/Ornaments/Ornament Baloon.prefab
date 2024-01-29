@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyRenderer: {fileID: 7460425501921392436}
   screenshot: {fileID: 21300000, guid: 7eae2279bc49e427e8a74db89b9aec05, type: 3}
-  supportedMaterials: 0
+  supportedMaterials: 2
   positionType: 0
 --- !u!1 &6157227179423362227
 GameObject:

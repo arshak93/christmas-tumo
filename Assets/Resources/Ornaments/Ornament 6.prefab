@@ -230,7 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyRenderer: {fileID: 6241700490013964745}
   screenshot: {fileID: 21300000, guid: ad8f6fd0580ed4380bbf08888e3079c0, type: 3}
-  supportedMaterials: 0
+  supportedMaterials: 2
   positionType: 0
 --- !u!1001 &4710602651204281677
 PrefabInstance:

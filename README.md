@@ -54,6 +54,8 @@ This scene loads the existing trees in the domain and allows the user to decorat
 
 The `DomainTreeSpawner.cs` loads and spawns the existing trees in the domain and updates the tree data on the PocketBase through `PocketbaseApiClient.cs` when the user adds or removes an ornament from it.
 
+![christmas-scene](./ReadmeAssets/christmas-scene-demo.gif)
+
 ### Data classes and saving/loading from the backend
 
 The classes in [Scripts/Posemesh/Pocketbase/Model](Assets/Scripts/Posemesh/Pocketbase/Model) folder are used to serialize and deserialize the Christmas tree and ornament data to JSON used when communicating with PocketBase.
