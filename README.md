@@ -1,6 +1,6 @@
 # Project overview
 
-This project, created together with the (TUMO center)[https://tumo.org/] students during a 2-week workshop, demonstrates some of the basic features of a posemesh domain. It allows users to place AR Christmas trees in a persistent position in the physical space and decorate them with friends and family. It demonstrates how to place virtual assets, interact with them, save and load data to a custom backend, and test the AR setup in a simulated environment in Unity Editor.
+This project, created together with the [TUMO center](https://tumo.org/) students during a 2-week workshop, demonstrates some of the basic features of a posemesh domain. It allows users to place AR Christmas trees in a persistent position in the physical space and decorate them with friends and family. It demonstrates how to place virtual assets, interact with them, save and load data to a custom backend, and test the AR setup in a simulated environment in Unity Editor.
 
 ## Packages and tools
 
