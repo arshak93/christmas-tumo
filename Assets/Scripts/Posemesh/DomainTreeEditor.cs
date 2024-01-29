@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Posemesh.Pocketbase;
@@ -8,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
-namespace Multiplayer
+namespace Posemesh
 {
     public class DomainTreeEditor : MonoBehaviour
     {

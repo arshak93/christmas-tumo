@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Multiplayer;
+using Posemesh;
+using Posemesh.Pocketbase.Model;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;

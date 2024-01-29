@@ -1,10 +1,13 @@
 ﻿using System;
 
-[Serializable]
-public class OrnamentData
+namespace Posemesh.Pocketbase.Model
 {
-    public int positionIndex;
-    public string prefab;
-    public string material;
-    public string text;
+    [Serializable]
+    public class OrnamentData
+    {
+        public int positionIndex;
+        public string prefab;
+        public string material;
+        public string text;
+    }
 }

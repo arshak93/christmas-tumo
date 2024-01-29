@@ -4,7 +4,7 @@ using Posemesh.Pocketbase;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
-namespace Multiplayer
+namespace Posemesh
 {
     public class DomainTreeSpawner : MonoBehaviour
     {

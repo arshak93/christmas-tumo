@@ -8,6 +8,9 @@ using UnityEngine.Networking;
 
 namespace Posemesh.Pocketbase
 {
+    /// <summary>
+    /// CRUD operations for PocketBase christmas_trees collection
+    /// </summary>
     public class PocketbaseApiClient : MonoBehaviour
     {
         private string _apiUrl = "http://127.0.0.1:8090/api";

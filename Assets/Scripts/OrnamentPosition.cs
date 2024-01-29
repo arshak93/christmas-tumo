@@ -1,3 +1,4 @@
+using Posemesh.Pocketbase.Model;
 using UnityEngine;
 
 public class OrnamentPosition : MonoBehaviour
